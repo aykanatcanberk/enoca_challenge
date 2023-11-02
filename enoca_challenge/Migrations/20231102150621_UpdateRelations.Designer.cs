@@ -12,8 +12,8 @@ using enoca_challenge.Data;
 namespace enoca_challenge.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231102132938_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20231102150621_UpdateRelations")]
+    partial class UpdateRelations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,9 +32,6 @@ namespace enoca_challenge.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CarrierId"));
-
-                    b.Property<int>("CarrierConfigurationId")
-                        .HasColumnType("int");
 
                     b.Property<bool>("CarrierIsActive")
                         .HasColumnType("bit");

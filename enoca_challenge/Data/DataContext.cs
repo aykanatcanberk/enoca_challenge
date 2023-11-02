@@ -14,8 +14,8 @@ namespace enoca_challenge.Data
 
         }
 
-        DbSet<Carrier> Carriers { get; set; }
-        DbSet<CarrierConfiguration> CarriersConfigurations { get; set;}
-        DbSet<Order> Orders { get; set; }
+        public DbSet<Carrier> Carriers { get; set; }
+        public DbSet<CarrierConfiguration> CarriersConfigurations { get; set;}
+        public DbSet<Order> Orders { get; set; }
     }
 }

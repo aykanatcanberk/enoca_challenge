@@ -19,7 +19,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Services\" />
+    <Folder Include="DTOs\Request\CarrierConfigurationRequest\" />
+    <Folder Include="DTOs\Request\OrderRequest\" />
+    <Folder Include="DTOs\Response\CarrierConfigurationResponse\" />
+    <Folder Include="DTOs\Response\OrderResponse\" />
   </ItemGroup>
 
 </Project>
