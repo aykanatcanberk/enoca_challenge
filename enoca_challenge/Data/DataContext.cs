@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using enoca_challenge.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace enoca_challenge.Data
 {
@@ -10,9 +11,11 @@ namespace enoca_challenge.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            base.OnConfiguring(optionsBuilder);
-            optionsBuilder.UseSqlServer("");
 
         }
+
+        DbSet<Carrier> Carriers { get; set; }
+        DbSet<CarrierConfiguration> CarriersConfigurations { get; set;}
+        DbSet<Order> Orders { get; set; }
     }
 }
