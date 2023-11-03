@@ -1,7 +1,6 @@
 ﻿using enoca_challenge.DTOs.Request.CarrierRequest;
 using enoca_challenge.DTOs.Response.CarrierResponse;
 using enoca_challenge.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace enoca_challenge.Services.CarrierServices
 {
@@ -27,20 +26,34 @@ namespace enoca_challenge.Services.CarrierServices
                 _dbContext.Carriers.Add(carrier);
                 await _dbContext.SaveChangesAsync();
 
-                return "Kargo Firma Eklendi";
+                return "Kargo Firması Eklendi";
             }
             catch (Exception ex)
             {
-                // Log the exception
                 Console.WriteLine($"Error in AddCarrierAsync: {ex.Message}");
                 throw;
             }
         }
 
 
-        public Task<string> DeleteCarrierAsync(int carrierId)
+        public async Task<string> DeleteCarrierAsync(int carrierId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var existingCarrier = await _dbContext.Carriers.FindAsync(carrierId);
+                if (existingCarrier == null)
+                    throw new InvalidOperationException("Belirtilen ID'ye sahip kargo firma bulunamadı");
+
+                _dbContext.Carriers.Remove(existingCarrier);
+                await _dbContext.SaveChangesAsync();
+                return $"{existingCarrier.CarrierId} ID'li kargo firması silindi";
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error in DeleteCarrierAsync: {ex.Message}");
+                throw;
+            }
+
         }
 
         public async Task<List<ListCarriersResponse>> ListCarriersAsync()
@@ -54,7 +67,6 @@ namespace enoca_challenge.Services.CarrierServices
                     CarrierIsActive = c.CarrierIsActive,
                     CarrierPlusDesiCost = c.CarrierPlusDesiCost
                 }).ToList();
-
                 return responseList;
             }
             catch (Exception ex)

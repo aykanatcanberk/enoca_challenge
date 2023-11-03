@@ -17,78 +17,36 @@ namespace enoca_challenge.Controllers
         public CarrierController(ICarrierService carrierService, DataContext dataContext)
         {
             _carrierService = carrierService;
-            _dataContext = dataContext;
         }
 
         [HttpGet]
         public async Task<IActionResult> ListCarriers()
         {
-            try
-            {
-                var result = await _carrierService.ListCarriersAsync();
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error in ListCarriers: {ex.Message}");
-                return StatusCode(500, "Internal Server Error");
-            }
+            var result = await _carrierService.ListCarriersAsync();
+            return Ok(result);
         }
 
         [HttpPost]
-        public async Task<string> AddCarrierAsync(AddCarrierRequest newCarrier)
+        public async Task<IActionResult> AddCarrierAsync(AddCarrierRequest newCarrier)
         {
-            try
-            {
-                var carrier = new Carrier
-                {
-                    CarrierName = newCarrier.CarrierName,
-                    CarrierIsActive = newCarrier.CarrierIsActive,
-                    CarrierPlusDesiCost = newCarrier.CarrierPlusDesiCost
-                };
-
-                _dataContext.Carriers.Add(carrier);
-                await _dataContext.SaveChangesAsync();
-
-                return "Kargo Firma Eklendi";
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error in AddCarrierAsync: {ex.Message}");
-                throw;
-            }
+            var result = await _carrierService.AddCarrierAsync(newCarrier);
+            return Ok(result);
         }
-
-
         [HttpPut("{carrierId}")]
         public async Task<IActionResult> UpdateCarrier(int carrierId, [FromBody] UpdateCarrierRequest updateRequest)
         {
-            try
-            {
-                var result = await _carrierService.UpdateCarrierAsync(carrierId, updateRequest);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error in UpdateCarrier: {ex.Message}");
-                return StatusCode(500, "Internal Server Error");
-            }
+            var result = await _carrierService.UpdateCarrierAsync(carrierId, updateRequest);
+            return Ok(result);
         }
 
-        //Bana kalsa burada soft delete yapar db'de veriyi tutardım...
+        //Bana kalsa burada soft-delete yapar db'de veriyi tutardım...
         [HttpDelete("{carrierId}")]
         public async Task<IActionResult> DeleteCarrier(int carrierId)
-        {
-            try
-            {
-                var result = await _carrierService.DeleteCarrierAsync(carrierId);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error in DeleteCarrier: {ex.Message}");
-                return StatusCode(500, "Internal Server Error");
-            }
+        {      
+            var result = await _carrierService.DeleteCarrierAsync(carrierId);
+            if (result is null)
+                return NotFound("Kargo Firması Zaten Mevcut Değil.");
+            return Ok(result);
         }
     }
 

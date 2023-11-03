@@ -1,10 +1,10 @@
 global using enoca_challenge.Data;
+global using Microsoft.EntityFrameworkCore;
 global using enoca_challenge.DTOs;
 using enoca_challenge.Models;
 using enoca_challenge.Services.CarrierConfigurationServices;
 using enoca_challenge.Services.CarrierServices;
 using enoca_challenge.Services.OrderServices;
-using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
