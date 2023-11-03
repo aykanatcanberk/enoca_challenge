@@ -13,8 +13,6 @@ namespace enoca_challenge.Models
         public int CarrierMinDesi { get; set; }
         public decimal CarrierCost {  get; set; }
 
-        public Carrier Carrier { get; set; }
-
-        
+        public Carrier Carrier { get; set; }  
     }
 }

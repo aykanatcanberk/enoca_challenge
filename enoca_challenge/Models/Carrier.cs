@@ -13,6 +13,5 @@ namespace enoca_challenge.Models
 
         public List<Order> Orders { get; set; }
         public List<CarrierConfiguration> CarrierConfigurations { get; set; }
-
     }
 }

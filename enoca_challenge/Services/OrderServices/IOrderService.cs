@@ -1,12 +1,15 @@
-﻿using enoca_challenge.Models;
+﻿using enoca_challenge.DTOs.Response.OrderResponse;
+using enoca_challenge.Models;
 
 namespace enoca_challenge.Services.OrderServices
 {
     public interface IOrderService
     {
-        List<Order> GetOrders();
-        void AddOrder(Order order);
-        void ProcessOrder(int orderId);
-        void DeleteOrder(int orderId);
+        Task<string> AddOrderAsync(int orderDesi);
+        Task<List<ListOrderResponse>> ListOrdersAsync();
+         Task<string> DeleteOrderAsync(int orderId);
+         Task<decimal> AddOrderAsync(OrderDto orderDto);
+         Task<decimal> CalculateOrderCarrierCostAsync(int orderDesi);
+
     }
 }
