@@ -10,8 +10,9 @@ namespace enoca_challenge.Models
         public bool CarrierIsActive {  get; set; }
         public int CarrierPlusDesiCost {  get; set; }
         
-
         public List<Order> Orders { get; set; }
         public List<CarrierConfiguration> CarrierConfigurations { get; set; }
+        public List<CarrierReport> CarrierReports { get; set; }
+
     }
 }

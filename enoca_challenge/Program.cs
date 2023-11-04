@@ -5,6 +5,8 @@ using enoca_challenge.Models;
 using enoca_challenge.Services.CarrierConfigurationServices;
 using enoca_challenge.Services.CarrierServices;
 using enoca_challenge.Services.OrderServices;
+using Hangfire;
+using enoca_challenge.Services.HangfireServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +21,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<ICarrierService, CarrierService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<ICarrierConfigurationService,CarrierConfigurationService>();
+builder.Services.AddScoped<IHangfireService, HangfireService>(); 
 
 //DB Connection
 builder.Services.AddDbContext<DataContext>(options =>
@@ -27,6 +30,12 @@ builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(connectionString);
 }
 );
+
+// Hangfire Configuration
+builder.Services.AddHangfire(config => config
+.UseSqlServerStorage(builder.Configuration.GetConnectionString("local")));
+
+builder.Services.AddHangfireServer();
 
 var app = builder.Build();
 
@@ -42,5 +51,9 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseHangfireDashboard();
+app.MapHangfireDashboard();
+RecurringJob.AddOrUpdate<IHangfireService>(x => x.GenerateCarrierReportsJob(), Cron.Daily);
 
 app.Run();
